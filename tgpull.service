@@ -1,0 +1,32 @@
+[Unit]
+Description=Telegram Video Puller
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+EnvironmentFile=-/home/USERNAME/tg-pull/.env
+WorkingDirectory=/home/USERNAME/tg-pull
+ExecStart=/home/USERNAME/tg-pull/venv/bin/python -OO -u /home/USERNAME/tg-pull/app.py
+
+Restart=on-failure
+RestartSec=15
+
+Environment=PYTHONOPTIMIZE=2
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONDONTWRITEBYTECODE=1
+
+Nice=19
+IOSchedulingClass=idle
+IOSchedulingPriority=7
+CPUWeight=10
+IOWeight=10
+MemoryHigh=250M
+MemoryMax=350M
+OOMScoreAdjust=500
+
+StandardOutput=null
+StandardError=null
+
+[Install]
+WantedBy=multi-user.target
